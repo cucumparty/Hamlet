@@ -18,7 +18,7 @@ int main()
 
 
     char buf[n_symb + 1];
-    fread(buf, sizeof(char), n_symb, in_file);
+    fread(buf, sizeof(char), (size_t)n_symb, in_file);
     buf[n_symb] = '\0'; 
     
     if(fclose(in_file) != 0)
