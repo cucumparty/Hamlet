@@ -14,7 +14,7 @@ int main()
     }
     
     fstat (fileno (in_file), &buffer);
-    long long n_symb = buffer.st_size;     //171509
+    long long n_symb = buffer.st_size;     
 
 
     char buf[n_symb + 1];
@@ -24,14 +24,12 @@ int main()
     if(fclose(in_file) != 0)
         fprintf(stderr, "The file can't be closed.\n");
 
-    int n_pointers = Count_strings(buf, n_symb, '\n');      //4163
-    //printf("%d", n_pointers);
-    struct String_struct text[n_pointers + 1];              //4164
+    int n_pointers = Count_strings(buf, n_symb, '\n');      
+
+    struct String_struct text[n_pointers + 1];              
 
     Build_struct(buf, text, n_symb, '\n', '\0');
 
-    //printf("%s %d", text[n_pointers].pointer, text[n_pointers].length);
-    //printf("%c\n", *(text[n_pointers].pointer + text[n_pointers].length - 1));
 
     if((out_file = fopen("output_text.txt", "w+")) == NULL)
     {
