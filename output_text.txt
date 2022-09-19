@@ -1,3 +1,5 @@
+Alphabet sorting:
+
 Act i. Scene i.
 Act ii. Scene i.
 Act iii. Scene i.
@@ -4162,8 +4164,11 @@ your visitation shall receive such thanks
 your whoreson dead body. Here's a skull now. This skull hath lien
 your wisdom best shall think.
 you say right, sir; a monday morning; twas so indeed.
-1604
+
+Rhyme sorting:
+
 reason and sanity could not so prosperously be delivered of. I
+1604
 Ham. They are sheep and calves which seek out assurance in that. I
 Guil. But these cannot i command to any utt'rance of harmony. I
 O, you must wear your rue with a difference! There's a daisy. I
@@ -8326,6 +8331,9 @@ march. [enter king, queen, polonius, ophelia, rosencrantz,
 Queen. Thanks, guildenstern and gentle rosencrantz.
 Enter rosencrantz.
 Ham. Buzz, buzz!
+
+Direct sorting:
+
 1604
 the tragedy of hamlet, prince of denmark
 by william shakespeare

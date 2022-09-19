@@ -45,6 +45,7 @@ void Print_direct_text(FILE* out_file, char buf[], long long n_symb)
     assert(buf      != NULL);
     assert(out_file != NULL);
 
+    fprintf(out_file, "Direct sorting:\n\n");
     int i = 0;
     for(i = 0; i < n_symb; i++)
     {
@@ -61,11 +62,13 @@ void Alphabet_sort(FILE* out_file, struct String_struct text[], int n_pointers)
 
     qsort(text, n_pointers + 1, sizeof(text[0]), &Qsort_Comparator);
 
+    fprintf(out_file, "Alphabet sorting:\n\n");
     int i = 0;
     for(i = 0; i < n_pointers + 1; i++)
     {
         fprintf(out_file, "%s\n", text[i].pointer);
     }
+    fprintf(out_file, "\n");
 }
 
 int Qsort_Comparator(const void* a, const void* b)
@@ -104,11 +107,13 @@ void Rhyme_sort(FILE* out_file, struct String_struct text[], int n_pointers)
 
     My_sort(text, n_pointers);
 
+    fprintf(out_file, "Rhyme sorting:\n\n");
     int i = 0;
     for(i = 0; i < n_pointers + 1; i++)
     {
         fprintf(out_file, "%s\n", text[i].pointer);
     }
+    fprintf(out_file, "\n");
 }
 
 void My_sort(struct String_struct text[], int n_pointers)
