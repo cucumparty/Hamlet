@@ -14,27 +14,35 @@ int main()
     }
     
     fstat (fileno (in_file), &buffer);
-    long long n_symb = buffer.st_size;
+    long long n_symb = buffer.st_size;     //171509
+
 
     char buf[n_symb + 1];
-    fread(buf, sizeof(char), n_symb, in_file);  
+    fread(buf, sizeof(char), n_symb, in_file);
+    buf[n_symb] = '\0'; 
     
     if(fclose(in_file) != 0)
         fprintf(stderr, "The file can't be closed.\n");
 
-
-    int n_pointers = Count_strings(buf, n_symb, '\n');
-    struct String_struct text[n_pointers + 1];
+    int n_pointers = Count_strings(buf, n_symb, '\n');      //4163
+    //printf("%d", n_pointers);
+    struct String_struct text[n_pointers + 1];              //4164
 
     Build_struct(buf, text, n_symb, '\n', '\0');
 
+    //printf("%s %d", text[n_pointers].pointer, text[n_pointers].length);
+    //printf("%c\n", *(text[n_pointers].pointer + text[n_pointers].length - 1));
 
     if((out_file = fopen("output_text.txt", "w+")) == NULL)
     {
         fprintf(stdout, "The file can't be opened.\n");
         return EXIT_FAILURE;
     }
+    
+    //Alphabet_sort(out_file, text, n_pointers);
 
+    Rhyme_sort(out_file, text, n_pointers);
+    
     Print_direct_text(out_file, buf, n_symb);
 
     if(fclose(out_file) != 0)
