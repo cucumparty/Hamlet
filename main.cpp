@@ -39,7 +39,7 @@ int main()
         return EXIT_FAILURE;
     }
     
-    //Alphabet_sort(out_file, text, n_pointers);
+    Alphabet_sort(out_file, text, n_pointers);
 
     Rhyme_sort(out_file, text, n_pointers);
     
