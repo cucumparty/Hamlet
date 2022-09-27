@@ -20,12 +20,29 @@ struct String_struct{
     int   length;
 };
 
+//!Structure with structure with the type stat, array with the name buf, number of symbols in our file, structure with the type String_struct
+struct Constructor{
+    struct stat buffer;
+    char* buf;
+    size_t n_symb;
+    struct String_struct text[];
+};
+
 //!Constants for Qsort_Comparator
 enum Compare_Const{
     FIRST_BIGGER  = -1,
     EQUAL         =  0,
     SECOND_BIGGER =  1
 };
+
+
+//! Consructor of the text
+//!
+//! @param [in] in_file     The file, from where we take the text
+//! @param [in] text_ctor   The pointer to the structure with the type Constructor
+//!
+//! @return Number of strings
+int Text_Construct(FILE* in_file, struct Constructor* text_ctor);
 
 //! Count the strings in the file
 //!
@@ -34,7 +51,7 @@ enum Compare_Const{
 //! @param [in] symb    The symbol by which divide strings('\n')
 //!
 //! @return Number of strings
-int Count_strings(char buf[], long long n_symb, char symb);
+int Count_strings(char buf[], size_t n_symb, char symb);
 
 //! Build the structure the type String_struct
 //!
@@ -44,14 +61,14 @@ int Count_strings(char buf[], long long n_symb, char symb);
 //! @param [in] old_symb    The old symbol, that should be replaced('\n')
 //! @param [in] new_symb    The new symbol, that will replace the old one('\0')
 void Build_struct(char buf[], struct String_struct text[], 
-                  long long n_symb, char old_symb, char new_symb);
+                  size_t n_symb, char old_symb, char new_symb);
 
 //! Print the text directly
 //!
 //! @param [in] out_file     The file, where the text should be written 
 //! @param [in] buf          Buffer with the text
 //! @param [in] n_symb      Number of symbols in the buffer
-void Print_direct_text(FILE* out_file, char buf[], long long n_symb);
+void Print_direct_text(FILE* out_file, char buf[], size_t n_symb);
 
 //! The comparator for qsort-function
 //!

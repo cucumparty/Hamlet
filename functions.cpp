@@ -1,6 +1,25 @@
 #include "file.h"
 
-int Count_strings(char buf[], long long n_symb, char symb)
+int Text_Construct(FILE* in_file, struct Constructor* text_ctor)
+{
+    fstat (fileno (in_file), &(text_ctor->buffer));
+
+    text_ctor->n_symb = text_ctor->buffer.st_size; 
+
+    text_ctor->buf[text_ctor->n_symb + 1];
+    fread(text_ctor->buf, sizeof(char), (size_t)text_ctor->n_symb, in_file);
+    text_ctor->buf[text_ctor->n_symb] = '\0'; 
+
+    int n_pointers = Count_strings(text_ctor->buf, text_ctor->n_symb, '\n');
+
+    text_ctor->text[n_pointers + 1]; 
+
+    Build_struct(text_ctor->buf, text_ctor->text, text_ctor->n_symb, '\n', '\0');
+
+    return n_pointers;
+}
+
+int Count_strings(char buf[], size_t n_symb, char symb)
 {
     assert (buf != NULL);
 
@@ -16,7 +35,7 @@ int Count_strings(char buf[], long long n_symb, char symb)
 }
 
 void Build_struct(char buf[], struct String_struct text[], 
-                  long long n_symb, char old_symb, char new_symb)
+                  size_t n_symb, char old_symb, char new_symb)
 {
     assert(buf  != NULL);
     assert(text != NULL);
@@ -40,7 +59,7 @@ void Build_struct(char buf[], struct String_struct text[],
     text[x - 1].length = (int)(&(buf[i]) - text[x - 1].pointer);
 }
 
-void Print_direct_text(FILE* out_file, char buf[], long long n_symb)
+void Print_direct_text(FILE* out_file, char buf[], size_t n_symb)
 {
     assert(buf      != NULL);
     assert(out_file != NULL);
