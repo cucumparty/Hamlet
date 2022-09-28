@@ -6,13 +6,13 @@ int Text_Construct(FILE* in_file, struct Constructor* text_ctor)
 
     text_ctor->n_symb = text_ctor->buffer.st_size; 
 
-    text_ctor->buf[text_ctor->n_symb + 1];
+    text_ctor->buf = (char*)calloc(text_ctor->n_symb + 1, sizeof(char));
     fread(text_ctor->buf, sizeof(char), (size_t)text_ctor->n_symb, in_file);
     text_ctor->buf[text_ctor->n_symb] = '\0'; 
 
     int n_pointers = Count_strings(text_ctor->buf, text_ctor->n_symb, '\n');
 
-    text_ctor->text[n_pointers + 1]; 
+    text_ctor->text = (struct String_struct*)calloc(n_pointers + 1, sizeof(struct String_struct)); 
 
     Build_struct(text_ctor->buf, text_ctor->text, text_ctor->n_symb, '\n', '\0');
 

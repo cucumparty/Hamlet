@@ -25,7 +25,7 @@ struct Constructor{
     struct stat buffer;
     char* buf;
     size_t n_symb;
-    struct String_struct text[];
+    struct String_struct* text;
 };
 
 //!Constants for Qsort_Comparator
