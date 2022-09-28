@@ -205,10 +205,8 @@ void My_sort(struct String_struct text[], int n_pointers)
                 text[i].length     = text[i - 1].length;
                 text[i - 1].length = len_1;
             }                    
-
         }
     }
-
 }
 
 void Text_Destruct(struct Constructor* text_ctor)
