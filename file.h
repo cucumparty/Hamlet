@@ -24,7 +24,7 @@ struct String_struct{
 struct Constructor{
     struct stat buffer;
     char* buf;
-    size_t n_symb;
+    unsigned int n_symb;
     struct String_struct* text;
 };
 
@@ -51,7 +51,7 @@ int Text_Construct(FILE* in_file, struct Constructor* text_ctor);
 //! @param [in] symb    The symbol by which divide strings('\n')
 //!
 //! @return Number of strings
-int Count_strings(char buf[], size_t n_symb, char symb);
+int Count_strings(char buf[], unsigned int n_symb, char symb);
 
 //! Build the structure the type String_struct
 //!
@@ -61,14 +61,14 @@ int Count_strings(char buf[], size_t n_symb, char symb);
 //! @param [in] old_symb    The old symbol, that should be replaced('\n')
 //! @param [in] new_symb    The new symbol, that will replace the old one('\0')
 void Build_struct(char buf[], struct String_struct text[], 
-                  size_t n_symb, char old_symb, char new_symb);
+                  unsigned int n_symb, char old_symb, char new_symb);
 
 //! Print the text directly
 //!
 //! @param [in] out_file     The file, where the text should be written 
 //! @param [in] buf          Buffer with the text
 //! @param [in] n_symb      Number of symbols in the buffer
-void Print_direct_text(FILE* out_file, char buf[], size_t n_symb);
+void Print_direct_text(FILE* out_file, char buf[], unsigned int n_symb);
 
 //! The comparator for qsort-function
 //!
@@ -97,3 +97,8 @@ void Rhyme_sort(FILE* out_file, struct String_struct text[], int n_pointers);
 //! @param [in] out_file     The file, where the text should be written 
 //! @param [in] n_pointers   Number of pointers(begin from zero)
 void My_sort(struct String_struct text[], int n_pointers);
+
+//! Destructor of the text
+//!
+//! @param [in] text_ctor   The pointer to the structure with the type Constructor
+void Text_Destruct(struct Constructor* text_ctor);

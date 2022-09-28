@@ -2,31 +2,32 @@
 
 int Text_Construct(FILE* in_file, struct Constructor* text_ctor)
 {
+    assert(in_file != NULL);
+    assert(text_ctor != NULL);
+
     fstat (fileno (in_file), &(text_ctor->buffer));
 
-    text_ctor->n_symb = text_ctor->buffer.st_size; 
+    text_ctor->n_symb = (unsigned int)text_ctor->buffer.st_size; 
 
     text_ctor->buf = (char*)calloc(text_ctor->n_symb + 1, sizeof(char));
-    fread(text_ctor->buf, sizeof(char), (size_t)text_ctor->n_symb, in_file);
+    fread(text_ctor->buf, sizeof(char), text_ctor->n_symb, in_file);
     text_ctor->buf[text_ctor->n_symb] = '\0'; 
 
     int n_pointers = Count_strings(text_ctor->buf, text_ctor->n_symb, '\n');
 
-    text_ctor->text = (struct String_struct*)calloc(n_pointers + 1, sizeof(struct String_struct)); 
+    text_ctor->text = (struct String_struct*)calloc((size_t)n_pointers + 1, sizeof(struct String_struct)); 
 
     Build_struct(text_ctor->buf, text_ctor->text, text_ctor->n_symb, '\n', '\0');
 
     return n_pointers;
 }
 
-int Count_strings(char buf[], size_t n_symb, char symb)
+int Count_strings(char buf[], unsigned int n_symb, char symb)
 {
     assert (buf != NULL);
-
-    int i = 0;
     int counter = 0;
     
-    for(i = 0; i < n_symb + 1; i++)
+    for(unsigned int i = 0; i < n_symb + 1; i++)
     {
         if(buf[i] == symb)
             counter ++;
@@ -35,38 +36,37 @@ int Count_strings(char buf[], size_t n_symb, char symb)
 }
 
 void Build_struct(char buf[], struct String_struct text[], 
-                  size_t n_symb, char old_symb, char new_symb)
+                  unsigned int n_symb, char old_symb, char new_symb)
 {
     assert(buf  != NULL);
     assert(text != NULL);
     
-    int i = 0;
-    int x = 1;
+    int prev = 1;
     
     text[0].pointer = buf;
     
-    for(i = 0; i < n_symb; i++)
+    for(unsigned int i = 0; i < n_symb; i++)
     {
         if(buf[i] == old_symb)
         {
             buf[i] = new_symb;
 
-            text[x].pointer = &(buf[i + 1]);
-            text[x - 1].length  = (int)(&(buf[i]) - text[x - 1].pointer);
-            x++;
+            text[prev].pointer = &(buf[i + 1]);
+            text[prev - 1].length  = (int)(&(buf[i]) - text[prev - 1].pointer);
+            prev++;
         }
     }
-    text[x - 1].length = (int)(&(buf[i]) - text[x - 1].pointer);
+    text[prev - 1].length = (int)(&(buf[n_symb]) - text[prev - 1].pointer);
 }
 
-void Print_direct_text(FILE* out_file, char buf[], size_t n_symb)
+void Print_direct_text(FILE* out_file, char buf[], unsigned int n_symb)
 {
     assert(buf      != NULL);
     assert(out_file != NULL);
 
     fprintf(out_file, "Direct sorting:\n\n");
-    int i = 0;
-    for(i = 0; i < n_symb; i++)
+
+    for(unsigned int i = 0; i < n_symb; i++)
     {
         if(buf[i] == '\0')
             buf[i] = '\n';
@@ -82,8 +82,8 @@ void Alphabet_sort(FILE* out_file, struct String_struct text[], int n_pointers)
     qsort(text, (size_t)(n_pointers + 1), sizeof(text[0]), &Qsort_Comparator);
 
     fprintf(out_file, "Alphabet sorting:\n\n");
-    int i = 0;
-    for(i = 0; i < n_pointers + 1; i++)
+
+    for(int i = 0; i < n_pointers + 1; i++)
     {
         fprintf(out_file, "%s\n", text[i].pointer);
     }
@@ -130,8 +130,8 @@ void Rhyme_sort(FILE* out_file, struct String_struct text[], int n_pointers)
     My_sort(text, n_pointers);
 
     fprintf(out_file, "Rhyme sorting:\n\n");
-    int i = 0;
-    for(i = 0; i < n_pointers + 1; i++)
+
+    for(int i = 0; i < n_pointers + 1; i++)
     {
         fprintf(out_file, "%s\n", text[i].pointer);
     }
@@ -140,14 +140,12 @@ void Rhyme_sort(FILE* out_file, struct String_struct text[], int n_pointers)
 
 void My_sort(struct String_struct text[], int n_pointers)
 {
-    int i = 0;
-    int x = 0;
     char* s1 = NULL;
     char* s2 = NULL;
 
-    for(x = 0; x < n_pointers; x++)
+    for(int b_sort = 0; b_sort < n_pointers; b_sort++)
     {
-        for(i = n_pointers; i > x; i--)
+        for(int i = n_pointers; i > b_sort; i--)
         {
             s1 = text[i].pointer     + text[i].length     - 1;
             s2 = text[i - 1].pointer + text[i - 1].length - 1;
@@ -161,7 +159,6 @@ void My_sort(struct String_struct text[], int n_pointers)
                     else    
                         break;
                 }
-
                 while(isalpha(*s2) == 0)
                 {
                     if(s2 != text[i - 1].pointer)
@@ -169,8 +166,6 @@ void My_sort(struct String_struct text[], int n_pointers)
                     else
                         break;
                 }
-
-                
 
                 if(*s1 == *s2)
                 {
@@ -182,7 +177,6 @@ void My_sort(struct String_struct text[], int n_pointers)
                     else
                         break;
                 } 
-
                 else if(*s1 < *s2)
                 {
                     char* temp          = text[i].pointer;
@@ -215,4 +209,12 @@ void My_sort(struct String_struct text[], int n_pointers)
         }
     }
 
+}
+
+void Text_Destruct(struct Constructor* text_ctor)
+{
+    free(text_ctor->buf);
+    free(text_ctor->text);
+
+    text_ctor->n_symb = (unsigned int)(-7777);
 }
